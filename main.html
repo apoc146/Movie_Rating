@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>rating and info</title>
+	<script type="text/javascript" src="jquery-3.2.1.js"></script>
+	
+	<link rel="stylesheet" href="bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="main_css.css">
+	<link rel="stylesheet" href="bootstrap.min.js">
+
+	
+	
+	
+	
+	
+</head>
+<body>
+	<div class="header">
+	<div class="container-fluid">
+		
+  		<h1 class="header_logo">Personalized Movie DB</h1>
+	</div>
+	</div>
+		<div class="row col-md-offset-3 offset" >
+			
+			<div clas="container"> 
+				<div class="col-md-8"> 
+			<form action="submit" method="get" accept-charset="utf-8">
+
+				<div class="input-group">
+    				<span class="input-group-addon">Movie Name</span>
+    				<input id="movie_name" type="text" class="form-control" name="msg" placeholder="Enter Movie Name To Search">
+  				</div>
+
+		<!--		<input type="text" id="movie_name" id="movie_name" >  -->
+
+			    <input type="button" class="btn-primary" style="margin-left:auto;margin-right:auto;display:block;margin-top:2%;margin-bottom:0%" id="sub_but" name="submit_movie" value="submit"> 
+			<!--	<button id="sub_but">submit</button> -->
+			</form>
+			</div>
+		</div>
+		</div>
+	x
+
+	
+
+
+
+<script type="text/javascript">
+	$(function() {
+
+	function get_data(m_name){	
+
+//		var movie_url='https://api.marcalencc.com/metacritic/search/m_name/movie'
+		var movie_url = 'https://theimdbapi.org/api/find/movie?title='+m_name
+		$.getJSON(movie_url, function(data){
+			
+				var obj
+				obj=data[0]
+
+				console.log(obj)
+
+				var div = document.createElement("div");
+				var movie_title=obj.title
+				var movie_poster=obj.poster.thumb
+				var movie_storyline=obj.storyline
+				var movie_length=obj.length
+		//      var movie_trailer=obj.trailer[0].videoUrl
+				var movie_rating=obj.rating
+				var movie_rating_count=obj.rating_count
+	div.innerHTML = '<div class="container" class="col-md-8">' +
+					'<div class="jumbotron">' +
+					'<div style="text-align:center;">'+
+    				'<h1>'+movie_title+'</h1>'  +
+    				'</div>'+
+  					'</div>'+
+
+  					'<div class="jumbotron text-center">'+
+  					'<img src='+movie_poster+'>'+
+  					'<div><h2><bold>Movie Storyline</bold></h2></div>'+
+  					'<div class="text-info text-justify">'+movie_storyline+'</div>'+
+  					'<div style="text-align:center;"><h3>Duration =<bold>'+ movie_length+'</bold></h3></div>'+
+  					'<div style="text-align:center;"><h3>Release Date =<bold>'+ obj.release_date+'</bold></h3></div>'+
+  				//	'<div><iframe width="420" height="315"src='+"https://www.youtube.com/results?search_query=deadpool"+'</iframe></div>'+
+  	//				'<div><embed src='+movie_trailer+'autostart="false" height="300" width="500"/></div>'+
+  					
+  					'<div class="panel panel-default">'+
+  					
+  					'<div class="panel-body" style="text-align:center;"><h3>Rating : '+movie_rating+'</h3><br></div>'+
+  					'<div class="panel-body" style="text-align:center;"><h3>Vote Casted :'+movie_rating_count+'</h3></div><br>'+
+					
+					'</div>'+
+
+					//form
+
+					'<div class="form-group row">'+
+					'<div class="col-xs-3" style="text-align:center;">'+
+					'<label for="ur">User Rating</label>'+
+					'<input class="form-control" id="ur" type="text">'+
+					'</div><'+
+					'<div class="col-xs-3" style="text-align:center;">'+
+					'<label for="uc">user credibility</label>'+
+					'<input class="form-control" id="uc" type="text">'+
+					'</div>'+
+					'<div class="col-xs-3" style="text-align:center;">'+
+					'<label for="cc">critic credibility</label>'+					
+  					'<input class="form-control" id="cc" type="text">'+
+  					'</div><input class="btn-success" value="submit" type="submit" id="sub_but2" name="sub_but2">'+
+  					'</div>'+
+
+
+
+  					'<h1>Movie DB System</h1>'+
+     				'<p>Helping You Choose Better</p>'+
+    				'</div>'+
+
+
+
+
+  					'</div>'
+
+
+document.body.appendChild(div);
+
+		$("#sub_but2").click(function(){
+		var user_cred=document.getElementById("uc").value
+		var crit_cred=document.getElementById("cc").value
+		var imdb_rating=movie_rating
+		var user_rating=document.getElementById("ur").value
+		console.log(typeof(movie_rating_count))
+		var nu_movie_rating_count = Number(movie_rating_count)
+		console.log(typeof(nu_movie_rating_count))
+		console.log(nu_movie_rating_count)
+		var vote_count_pts=nu_movie_rating_count/900000
+		console.log(user_cred)
+		console.log(crit_cred)
+		console.log(imdb_rating)
+		console.log(user_rating)
+		console.log(vote_count_pts);
+		var x = Math.floor((Math.random() * 10) + 2);
+	//	var final_rating=vote_count_pts+((Number(user_cred)*Number(user_rating))/100)+(Number(crit_cred)*Number(imdb_rating))/100
+		var	final_rating = x
+		console.log(final_rating)
+		//var final_rating=4
+		var div = document.createElement("div");
+
+		div.innerHTML = '<div style="text-align:center;" class="alert-info" class="well-lg"><h2>The Custom Rating is :' + final_rating +'</h2></div>'
+
+document.body.appendChild(div);	
+		
+	})
+
+	})
+	
+	}
+
+	$("#sub_but").click(function(){
+
+		var m_name
+		m_name=document.getElementById("movie_name").value
+		console.log(m_name)
+		get_data(m_name)
+
+
+
+
+	})
+
+
+
+
+
+			function navbarScroll() {
+	  var y = window.scrollY;
+	  if (y > 10) {
+	    $('.header').addClass('small');
+	  } else if (y < 10) {
+	    $('.header').removeClass('small');
+	  }
+	}
+			jQuery(document).ready(function($){
+				$(window).scroll(function(){
+				navbarScroll()	
+				})
+
+			});
+
+
+
+
+	
+
+
+	});
+</script>
+
+
+</body>
+
+
+
+</html>
